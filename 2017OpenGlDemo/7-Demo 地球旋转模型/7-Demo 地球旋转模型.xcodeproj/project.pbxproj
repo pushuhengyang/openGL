@@ -1,0 +1,344 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		61C3EC9F1E95F219004A8F35 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 61C3EC9E1E95F219004A8F35 /* main.m */; };
+		61C3ECA21E95F219004A8F35 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 61C3ECA11E95F219004A8F35 /* AppDelegate.m */; };
+		61C3ECA51E95F219004A8F35 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61C3ECA41E95F219004A8F35 /* ViewController.m */; };
+		61C3ECA81E95F219004A8F35 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61C3ECA61E95F219004A8F35 /* Main.storyboard */; };
+		61C3ECAA1E95F219004A8F35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61C3ECA91E95F219004A8F35 /* Assets.xcassets */; };
+		61C3ECAD1E95F219004A8F35 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61C3ECAB1E95F219004A8F35 /* LaunchScreen.storyboard */; };
+		61C3ECB91E95F3F0004A8F35 /* Earth512x256.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 61C3ECB51E95F3F0004A8F35 /* Earth512x256.jpg */; };
+		61C3ECBA1E95F3F0004A8F35 /* Moon256x128.png in Resources */ = {isa = PBXBuildFile; fileRef = 61C3ECB61E95F3F0004A8F35 /* Moon256x128.png */; };
+		61C3ECBB1E95F3F0004A8F35 /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = 61C3ECB81E95F3F0004A8F35 /* sphere.obj */; };
+		61C3ECBE1E95F430004A8F35 /* WH_OpenGlHander.m in Sources */ = {isa = PBXBuildFile; fileRef = 61C3ECBD1E95F430004A8F35 /* WH_OpenGlHander.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		61C3EC9A1E95F219004A8F35 /* 7-Demo 地球旋转模型.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "7-Demo 地球旋转模型.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		61C3EC9E1E95F219004A8F35 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		61C3ECA01E95F219004A8F35 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		61C3ECA11E95F219004A8F35 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		61C3ECA31E95F219004A8F35 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		61C3ECA41E95F219004A8F35 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		61C3ECA71E95F219004A8F35 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		61C3ECA91E95F219004A8F35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		61C3ECAC1E95F219004A8F35 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		61C3ECAE1E95F219004A8F35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		61C3ECB51E95F3F0004A8F35 /* Earth512x256.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Earth512x256.jpg; sourceTree = "<group>"; };
+		61C3ECB61E95F3F0004A8F35 /* Moon256x128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon256x128.png; sourceTree = "<group>"; };
+		61C3ECB71E95F3F0004A8F35 /* sphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sphere.h; sourceTree = "<group>"; };
+		61C3ECB81E95F3F0004A8F35 /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.obj; sourceTree = "<group>"; };
+		61C3ECBC1E95F430004A8F35 /* WH_OpenGlHander.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WH_OpenGlHander.h; sourceTree = "<group>"; };
+		61C3ECBD1E95F430004A8F35 /* WH_OpenGlHander.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WH_OpenGlHander.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		61C3EC971E95F219004A8F35 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		61C3EC911E95F219004A8F35 = {
+			isa = PBXGroup;
+			children = (
+				61C3EC9C1E95F219004A8F35 /* 7-Demo 地球旋转模型 */,
+				61C3EC9B1E95F219004A8F35 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		61C3EC9B1E95F219004A8F35 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				61C3EC9A1E95F219004A8F35 /* 7-Demo 地球旋转模型.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		61C3EC9C1E95F219004A8F35 /* 7-Demo 地球旋转模型 */ = {
+			isa = PBXGroup;
+			children = (
+				61C3ECBC1E95F430004A8F35 /* WH_OpenGlHander.h */,
+				61C3ECBD1E95F430004A8F35 /* WH_OpenGlHander.m */,
+				61C3ECB41E95F3F0004A8F35 /* res */,
+				61C3ECA01E95F219004A8F35 /* AppDelegate.h */,
+				61C3ECA11E95F219004A8F35 /* AppDelegate.m */,
+				61C3ECA31E95F219004A8F35 /* ViewController.h */,
+				61C3ECA41E95F219004A8F35 /* ViewController.m */,
+				61C3ECA61E95F219004A8F35 /* Main.storyboard */,
+				61C3ECA91E95F219004A8F35 /* Assets.xcassets */,
+				61C3ECAB1E95F219004A8F35 /* LaunchScreen.storyboard */,
+				61C3ECAE1E95F219004A8F35 /* Info.plist */,
+				61C3EC9D1E95F219004A8F35 /* Supporting Files */,
+			);
+			path = "7-Demo 地球旋转模型";
+			sourceTree = "<group>";
+		};
+		61C3EC9D1E95F219004A8F35 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				61C3EC9E1E95F219004A8F35 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		61C3ECB41E95F3F0004A8F35 /* res */ = {
+			isa = PBXGroup;
+			children = (
+				61C3ECB51E95F3F0004A8F35 /* Earth512x256.jpg */,
+				61C3ECB61E95F3F0004A8F35 /* Moon256x128.png */,
+				61C3ECB71E95F3F0004A8F35 /* sphere.h */,
+				61C3ECB81E95F3F0004A8F35 /* sphere.obj */,
+			);
+			path = res;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		61C3EC991E95F219004A8F35 /* 7-Demo 地球旋转模型 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 61C3ECB11E95F219004A8F35 /* Build configuration list for PBXNativeTarget "7-Demo 地球旋转模型" */;
+			buildPhases = (
+				61C3EC961E95F219004A8F35 /* Sources */,
+				61C3EC971E95F219004A8F35 /* Frameworks */,
+				61C3EC981E95F219004A8F35 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "7-Demo 地球旋转模型";
+			productName = "7-Demo 地球旋转模型";
+			productReference = 61C3EC9A1E95F219004A8F35 /* 7-Demo 地球旋转模型.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		61C3EC921E95F219004A8F35 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = Hiniu;
+				TargetAttributes = {
+					61C3EC991E95F219004A8F35 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 61C3EC951E95F219004A8F35 /* Build configuration list for PBXProject "7-Demo 地球旋转模型" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 61C3EC911E95F219004A8F35;
+			productRefGroup = 61C3EC9B1E95F219004A8F35 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				61C3EC991E95F219004A8F35 /* 7-Demo 地球旋转模型 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		61C3EC981E95F219004A8F35 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				61C3ECB91E95F3F0004A8F35 /* Earth512x256.jpg in Resources */,
+				61C3ECAD1E95F219004A8F35 /* LaunchScreen.storyboard in Resources */,
+				61C3ECBA1E95F3F0004A8F35 /* Moon256x128.png in Resources */,
+				61C3ECAA1E95F219004A8F35 /* Assets.xcassets in Resources */,
+				61C3ECBB1E95F3F0004A8F35 /* sphere.obj in Resources */,
+				61C3ECA81E95F219004A8F35 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		61C3EC961E95F219004A8F35 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				61C3ECA51E95F219004A8F35 /* ViewController.m in Sources */,
+				61C3ECBE1E95F430004A8F35 /* WH_OpenGlHander.m in Sources */,
+				61C3ECA21E95F219004A8F35 /* AppDelegate.m in Sources */,
+				61C3EC9F1E95F219004A8F35 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		61C3ECA61E95F219004A8F35 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				61C3ECA71E95F219004A8F35 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		61C3ECAB1E95F219004A8F35 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				61C3ECAC1E95F219004A8F35 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		61C3ECAF1E95F219004A8F35 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		61C3ECB01E95F219004A8F35 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		61C3ECB21E95F219004A8F35 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "7-Demo 地球旋转模型/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "hiniu.cn.--Demo-------";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		61C3ECB31E95F219004A8F35 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "7-Demo 地球旋转模型/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "hiniu.cn.--Demo-------";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		61C3EC951E95F219004A8F35 /* Build configuration list for PBXProject "7-Demo 地球旋转模型" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				61C3ECAF1E95F219004A8F35 /* Debug */,
+				61C3ECB01E95F219004A8F35 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		61C3ECB11E95F219004A8F35 /* Build configuration list for PBXNativeTarget "7-Demo 地球旋转模型" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				61C3ECB21E95F219004A8F35 /* Debug */,
+				61C3ECB31E95F219004A8F35 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 61C3EC921E95F219004A8F35 /* Project object */;
+}
