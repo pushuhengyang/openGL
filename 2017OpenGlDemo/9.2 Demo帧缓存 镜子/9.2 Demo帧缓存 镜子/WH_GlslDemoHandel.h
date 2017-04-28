@@ -13,6 +13,7 @@
 @property (nonatomic , strong) EAGLContext* mContext;
 @property (strong,nonatomic) GLKView *glkView;
 
+@property (assign,nonatomic) BOOL isForce;
 
 
 -(void)draw;

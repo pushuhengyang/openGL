@@ -9,24 +9,28 @@
 #import "WH_GlslDemoHandel.h"
 #import "WH_OpenGlHander.h"
 
-
 @interface WH_GlslDemoHandel ()
 {
     GLuint prame;
     GLuint frameBuffer;//帧缓存的标识
     GLuint fbo;//缓存对象
     GLuint texture;
+    GLuint texture1;
     GLuint maTex;//纹理采样
     GLKTextureInfo* textureInfo;
     GLint _mDefaultFBO;
+    GLuint buffer;
+
 }
 
-@property (nonatomic , strong) GLKBaseEffect* mBaseEffect;
-@property(strong,nonatomic) GLKBaseEffect *extEffect;
-
-
-
 @end
+
+typedef enum : NSUInteger {
+    Poisition,
+    BaseColor,
+    Texoted,
+} ShaderType;
+
 
 @implementation WH_GlslDemoHandel
 
@@ -62,7 +66,6 @@
 //                1, 4, 3,
     };
     
-    GLuint buffer;
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(attrArr), attrArr, GL_STATIC_DRAW);
@@ -72,39 +75,31 @@
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
     //位置
-
-    glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 8, (GLfloat *)NULL);
-    
-    glEnableVertexAttribArray(GLKVertexAttribColor);
-    glVertexAttribPointer(GLKVertexAttribColor, 3, GL_FLOAT, GL_FALSE, 4 * 8, (GLfloat *)NULL + 3);
-    
-    glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
-    glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 4 * 8, (GLfloat *)NULL + 6);
-    
+//
+//    glEnableVertexAttribArray(GLKVertexAttribPosition);
+//    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 8, (GLfloat *)NULL);
+//    
+//    glEnableVertexAttribArray(GLKVertexAttribColor);
+//    glVertexAttribPointer(GLKVertexAttribColor, 3, GL_FLOAT, GL_FALSE, 4 * 8, (GLfloat *)NULL + 3);
+//    
+//    glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
+//    glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 4 * 8, (GLfloat *)NULL + 6);
+//    
 
     
     glEnable(GL_DEPTH_TEST);
 
     NSString* filePath = [[NSBundle mainBundle] pathForResource:@"22222" ofType:@"jpg"];
     
-    NSDictionary* options = [NSDictionary dictionaryWithObjectsAndKeys:@(1), GLKTextureLoaderOriginBottomLeft, nil];
+//    NSDictionary* options = [NSDictionary dictionaryWithObjectsAndKeys:@(1), GLKTextureLoaderOriginBottomLeft, nil];
     
-    GLKTextureInfo *texinfo = [GLKTextureLoader textureWithContentsOfFile:filePath options:options error:nil];
+//    GLKTextureInfo *texinfo = [GLKTextureLoader textureWithContentsOfFile:filePath options:options error:nil];
     
-//    texture = [WH_OpenGlHander setupTexture:filePath];
-
-    _mBaseEffect = [GLKBaseEffect new];
-    _extEffect = [GLKBaseEffect new];
-    
-    _extEffect.texture2d0.enabled=GL_TRUE;
-    _mBaseEffect.texture2d0.enabled=GL_TRUE;
-    
-    _mBaseEffect.texture2d0.name = texinfo.name;
-    _extEffect.texture2d0.name = texinfo.name;
+    texture = [WH_OpenGlHander setupTexture:filePath];
     
     CGFloat width, height,scron;
     scron = [UIScreen mainScreen].scale;
+//    scron=1.0;
     width = [UIScreen mainScreen].bounds.size.width*scron ;
     height = [UIScreen mainScreen].bounds.size.height*scron ;
     [self extraInitWithWidth:width height:height]; //特别注意这里的大小
@@ -113,8 +108,15 @@
 
 
 
+
 //帧缓存的创造
 - (void)extraInitWithWidth:(GLint)width height:(GLint)height {
+    glDeleteFramebuffers(1, &frameBuffer);
+    frameBuffer = 0;
+    glDeleteRenderbuffers(1, &fbo);
+    fbo=0;
+
+    
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_mDefaultFBO);
 
     glGenFramebuffers(1, &frameBuffer);
@@ -135,8 +137,8 @@
     //    texture = [WH_OpenGlHander setupTexture:filePath];
 
     
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
+    glGenTextures(1, &texture1);
+    glBindTexture(GL_TEXTURE_2D, texture1);
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -146,15 +148,15 @@
     
     //绑定到帧缓存上
     
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture1, 0);
     
     //缓冲对象
     glGenRenderbuffers(1, &fbo);
     glBindRenderbuffer(GL_RENDERBUFFER, fbo);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, width , height);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA4, width , height);
     
     
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, fbo);//将缓冲对象附加到帧缓存上
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, fbo);//将缓冲对象附加到帧缓存上
     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
         NSLog(@"帧缓冲失败error");
         return;
@@ -162,50 +164,88 @@
     
     glBindFramebuffer(GL_FRAMEBUFFER, _mDefaultFBO);
     glBindTexture(GL_TEXTURE_2D, 0);
+
 }
 
 
 -(void)prewDraw{
-//    if (prame==0) {
-//        [self loadShade];
-//    }
-//    if (prame==0) {
-//        return;
-//    }
-//    
-//    glUseProgram(prame);
-//    glUniform1i(maTex, 0);
-
-//    glBindTexture(GL_TEXTURE_2D, 0);
-    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-//
+    if (prame==0) {
+        [self loadShade];
+    }
+    if (prame==0) {
+        return;
+    }
     
-    glEnableVertexAttribArray(GLKVertexAttribColor);
-
+    glUseProgram(prame);
+    
+    
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    [self.extEffect prepareToDraw];
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-    glBindFramebuffer(GL_FRAMEBUFFER, _mDefaultFBO);
-    self.mBaseEffect.texture2d0.name = texture;
+//    glViewport(0, 0,100, 100);
     
+    [self setVBO1];
+
+//
+    glUniform1i(glGetUniformLocation(prame,"u_samplers2D"), 0);
+//
+//
+    glVertexAttribPointer(BaseColor, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*8, (float*)NULL+3);
+    glEnableVertexAttribArray(BaseColor);
+    
+    glVertexAttribPointer(Texoted, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*8, (float *)NULL+6);
+    glEnableVertexAttribArray(Texoted);
+//
+    
+    
+    
+    
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, _mDefaultFBO);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+}
+
+-(void)setVBO1{
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 }
 
 
 -(void)draw{
     [self prewDraw];
+    [_glkView bindDrawable];
     
-    [_glkView bindDrawable]; 
-    glClearColor(0.3, 0.3, 0.3, 1);
+    glUseProgram(prame);
+
+    
+
+    glClearColor(0.0, 0.3, 0.3, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glDisableVertexAttribArray(GLKVertexAttribColor);
 
     
-    [self.mBaseEffect prepareToDraw];
+    glActiveTexture(GL_TEXTURE1);
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+
+    glUniform1i(glGetUniformLocation(prame,"u_samplers2D"), 0);
+//
+    glVertexAttribPointer(Poisition, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*8, NULL);
+    glEnableVertexAttribArray(Poisition);
+    
+    glVertexAttribPointer(BaseColor, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*8, (float*)NULL+3);
+    glEnableVertexAttribArray(BaseColor);
+//    glDisableVertexAttribArray(BaseColor);
+    glVertexAttribPointer(Texoted, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*8, (float *)NULL+6);
+    glEnableVertexAttribArray(Texoted);
+////
+
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-
+    
+//    [_glkView.context presentRenderbuffer:GL_RENDERBUFFER];
 }
 
 -(BOOL)loadShade{
@@ -254,20 +294,24 @@
         
         return NO;
     }
+    glBindAttribLocation(prame, Poisition, "a_emissionPosition");
+//    GLuint poisition=glGetAttribLocation(prame, "a_emissionPosition");
+    glVertexAttribPointer(Poisition, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*8, NULL);
+    glEnableVertexAttribArray(Poisition);
     
-    GLuint poisition=glGetAttribLocation(prame, "a_emissionPosition");
-    glVertexAttribPointer(poisition, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*8, NULL);
-    glEnableVertexAttribArray(poisition);
     
-    
-    GLuint basColor = glGetAttribLocation(prame, "texCoords");
-    glVertexAttribPointer(basColor, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*8, (float*)NULL+3);
-    glEnableVertexAttribArray(basColor);
+    glBindAttribLocation(prame, BaseColor, "texCoords");
+
+//    GLuint basColor = glGetAttribLocation(prame, "texCoords");
+    glVertexAttribPointer(BaseColor, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*8, (float*)NULL+3);
+    glEnableVertexAttribArray(BaseColor);
     
     //纹理坐标缓存
-    GLuint color = glGetAttribLocation(prame, "textCoordinate");
-    glVertexAttribPointer(color, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*8, (float *)NULL+6);
-    glEnableVertexAttribArray(color);
+    glBindAttribLocation(prame, Texoted, "texCoords");
+
+//    GLuint color = glGetAttribLocation(prame, "textCoordinate");
+    glVertexAttribPointer(Texoted, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*8, (float *)NULL+6);
+    glEnableVertexAttribArray(Texoted);
     
     //纹理采样器
     maTex  = glGetUniformLocation(prame,"u_samplers2D");

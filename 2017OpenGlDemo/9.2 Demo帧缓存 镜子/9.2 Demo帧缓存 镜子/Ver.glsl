@@ -9,7 +9,7 @@ varying lowp vec2 vertexCood;
 
 void main(){
 
-    gl_Position =vec4(a_emissionPosition,1.0);
+    gl_Position =u_mvpMatrix*vec4(a_emissionPosition,1.0);
     vertexColor = texCoords;
     vertexCood =vec2(textCoordinate.x,1.0-textCoordinate.y);
 }
