@@ -12,16 +12,21 @@
 @interface WH_GlslDemoHandel ()
 {
     GLuint prame;
+    GLuint prame1;
+    
     GLuint frameBuffer;//帧缓存的标识
     GLuint fbo;//缓存对象
     GLuint texture;
     GLuint texture1;
-    GLuint maTex;//纹理采样
-    GLKTextureInfo* textureInfo;
-    GLint _mDefaultFBO;
+
+
     GLuint buffer;
 
 }
+
+@property(strong,nonatomic) WH_OpenGlHander *hander0;//一个东西
+@property(strong,nonatomic) WH_OpenGlHander *hander1;//一个东西
+
 
 @end
 
@@ -34,10 +39,32 @@ typedef enum : NSUInteger {
 
 @implementation WH_GlslDemoHandel
 
+GLfloat attrArr[] =
+{
+    -0.5f, 0.5f, 0.0f,      0.0f, 0.0f, 1.0f,       0.0f, 1.0f,//左上
+    0.5f, 0.5f, 0.0f,       0.0f, 1.0f, 0.0f,       1.0f, 1.0f,//右上
+    -0.5f, -0.5f, 0.0f,     1.0f, 0.0f, 1.0f,       0.0f, 0.0f,//左下
+    0.5f, -0.5f, 0.0f,      0.0f, 0.0f, 1.0f,       1.0f, 0.0f,//右下
+    0.0f, 0.0f, 1.0f,       1.0f, 1.0f, 1.0f,       0.5f, 0.5f,//顶点
+    
+};
+
+GLuint indices[] =
+{
+    0, 3, 2,
+    0, 1, 3,
+    //可以去掉注释
+                    0, 2, 4,
+                    0, 4, 1,
+                    2, 3, 4,
+                    1, 4, 3,
+};
+
 
 -(instancetype)init{
     if (self = [super init]) {
         prame=0;
+        prame1=0;
         [self setUPOrignUI];
     }
     return self;
@@ -45,64 +72,28 @@ typedef enum : NSUInteger {
 
 
 -(void)setUPOrignUI{
-    GLfloat attrArr[] =
-    {
-        -0.5f, 0.5f, 0.0f,      0.0f, 0.0f, 1.0f,       0.0f, 1.0f,//左上
-        0.5f, 0.5f, 0.0f,       0.0f, 1.0f, 0.0f,       1.0f, 1.0f,//右上
-        -0.5f, -0.5f, 0.0f,     1.0f, 0.0f, 1.0f,       0.0f, 0.0f,//左下
-        0.5f, -0.5f, 0.0f,      0.0f, 0.0f, 1.0f,       1.0f, 0.0f,//右下
-        0.0f, 0.0f, 1.0f,       1.0f, 1.0f, 1.0f,       0.5f, 0.5f,//顶点
-   
-    };
     
-    GLuint indices[] =
-    {
-        0, 3, 2,
-        0, 1, 3,
-        //可以去掉注释
-//                0, 2, 4,
-//                0, 4, 1,
-//                2, 3, 4,
-//                1, 4, 3,
-    };
-    
-    glGenBuffers(1, &buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(attrArr), attrArr, GL_STATIC_DRAW);
-    
+    _hander0 =[[WH_OpenGlHander alloc]initWithAttribStride:sizeof(GLfloat)*8 numberOfVertices:6 bytes:attrArr usage:GL_DYNAMIC_DRAW];
+    _hander1 =[[WH_OpenGlHander alloc]initWithAttribStride:sizeof(GLfloat)*8 numberOfVertices:6 bytes:attrArr usage:GL_DYNAMIC_DRAW];
+
     GLuint index;
     glGenBuffers(1, &index);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-    //位置
-//
-//    glEnableVertexAttribArray(GLKVertexAttribPosition);
-//    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 8, (GLfloat *)NULL);
-//    
-//    glEnableVertexAttribArray(GLKVertexAttribColor);
-//    glVertexAttribPointer(GLKVertexAttribColor, 3, GL_FLOAT, GL_FALSE, 4 * 8, (GLfloat *)NULL + 3);
-//    
-//    glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
-//    glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 4 * 8, (GLfloat *)NULL + 6);
-//    
+    
 
     
     glEnable(GL_DEPTH_TEST);
 
     NSString* filePath = [[NSBundle mainBundle] pathForResource:@"22222" ofType:@"jpg"];
     
-//    NSDictionary* options = [NSDictionary dictionaryWithObjectsAndKeys:@(1), GLKTextureLoaderOriginBottomLeft, nil];
-    
-//    GLKTextureInfo *texinfo = [GLKTextureLoader textureWithContentsOfFile:filePath options:options error:nil];
-    
     texture = [WH_OpenGlHander setupTexture:filePath];
     
     CGFloat width, height,scron;
     scron = [UIScreen mainScreen].scale;
-//    scron=1.0;
-    width = [UIScreen mainScreen].bounds.size.width*scron ;
-    height = [UIScreen mainScreen].bounds.size.height*scron ;
-    [self extraInitWithWidth:width height:height]; //特别注意这里的大小
+    width = [UIScreen mainScreen].bounds.size.width*scron/2 ;
+    height = [UIScreen mainScreen].bounds.size.height*scron/2 ;
+    [self extraInitWithWidth:100 height:100]; //特别注意这里的大小
 
 }
 
@@ -114,28 +105,10 @@ typedef enum : NSUInteger {
     glDeleteFramebuffers(1, &frameBuffer);
     frameBuffer = 0;
     glDeleteRenderbuffers(1, &fbo);
-    fbo=0;
-
     
-    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_mDefaultFBO);
-
+    fbo=0;
     glGenFramebuffers(1, &frameBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-    
-    /*
-     绑定到GL_FRAMEBUFFER目标后，接下来所有的读、写帧缓冲的操作都会影响到当前绑定的帧缓冲。也可以把帧缓冲分开绑定到读或写目标上，分别使用GL_READ_FRAMEBUFFER或GL_DRAW_FRAMEBUFFER来做这件事。如果绑定到了GL_READ_FRAMEBUFFER，就能执行所有读取操作，像glReadPixels这样的函数使用了；绑定到GL_DRAW_FRAMEBUFFER上，就允许进行渲染、清空和其他的写入操作。大多数时候你不必分开用，通常把两个都绑定到GL_FRAMEBUFFER上就行。
-     
-     建构一个完整的帧缓冲必须满足以下条件：
-     
-     我们必须往里面加入至少一个附件（颜色、深度、模板缓冲）。
-     其中至少有一个是颜色附件。
-     所有的附件都应该是已经完全做好的（已经存储在内存之中）。
-     每个缓冲都应该有同样数目的样本。
-     */
-    
-    //帧缓存纹理附件
-    //    texture = [WH_OpenGlHander setupTexture:filePath];
-
     
     glGenTextures(1, &texture1);
     glBindTexture(GL_TEXTURE_2D, texture1);
@@ -162,7 +135,7 @@ typedef enum : NSUInteger {
         return;
     }
     
-    glBindFramebuffer(GL_FRAMEBUFFER, _mDefaultFBO);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
 
 }
@@ -170,7 +143,7 @@ typedef enum : NSUInteger {
 
 -(void)prewDraw{
     if (prame==0) {
-        [self loadShade];
+      prame = [self loadShade];
     }
     if (prame==0) {
         return;
@@ -181,36 +154,58 @@ typedef enum : NSUInteger {
     
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//    glViewport(0, 0,100, 100);
     
     [self setVBO1];
 
-//
-    glUniform1i(glGetUniformLocation(prame,"u_samplers2D"), 0);
-//
-//
-    glVertexAttribPointer(BaseColor, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*8, (float*)NULL+3);
-    glEnableVertexAttribArray(BaseColor);
-    
-    glVertexAttribPointer(Texoted, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*8, (float *)NULL+6);
-    glEnableVertexAttribArray(Texoted);
-//
-    
-    
-    
-    
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindFramebuffer(GL_FRAMEBUFFER, _mDefaultFBO);
-    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, texture1);
+
 
 }
 
 -(void)setVBO1{
-    glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBindTexture(GL_TEXTURE_2D, texture);
+
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+    glActiveTexture(GL_TEXTURE0);
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+    GLuint poisition=glGetAttribLocation(prame, "a_emissionPosition");
+    
+    GLuint basColor = glGetAttribLocation(prame, "texCoords");
+    
+    GLuint color = glGetAttribLocation(prame, "textCoordinate");
+    
+    [ _hander0 reinitWithAttribStride:sizeof(GLfloat)*8 numberOfVertices:6 bytes:attrArr];
+    [_hander0 prepareToDrawWithAttrib:poisition numberOfCoordinates:3 attribOffset:0*sizeof(GLfloat) shouldEnable:YES];
+    [_hander0 prepareToDrawWithAttrib:basColor numberOfCoordinates:3 attribOffset:3*sizeof(GLfloat) shouldEnable:NO];
+    [_hander0 prepareToDrawWithAttrib:color numberOfCoordinates:2 attribOffset:6*sizeof(GLfloat) shouldEnable:YES];
+    
+    glUniform1i(glGetUniformLocation(prame,"u_samplers2D"), 0);
+
+    
+
+}
+
+
+-(void)setVBO{
+ 
+    GLuint poisition=glGetAttribLocation(prame1, "a_emissionPosition");
+    
+    GLuint basColor = glGetAttribLocation(prame1, "texCoords");
+    
+    GLuint color = glGetAttribLocation(prame1, "textCoordinate");
+    
+    [ _hander1 reinitWithAttribStride:sizeof(GLfloat)*8 numberOfVertices:6 bytes:attrArr];
+    [_hander1 prepareToDrawWithAttrib:poisition numberOfCoordinates:3 attribOffset:0*sizeof(GLfloat) shouldEnable:YES];
+    [_hander1 prepareToDrawWithAttrib:basColor numberOfCoordinates:3 attribOffset:3*sizeof(GLfloat) shouldEnable:NO];
+    [_hander1 prepareToDrawWithAttrib:color numberOfCoordinates:2 attribOffset:6*sizeof(GLfloat) shouldEnable:YES];
+    
+    glUniform1i(glGetUniformLocation(prame1,"u_samplers2D"), 0);
+
 }
 
 
@@ -218,48 +213,42 @@ typedef enum : NSUInteger {
     [self prewDraw];
     [_glkView bindDrawable];
     
-    glUseProgram(prame);
-
+    if (prame1==0) {
+        prame1 = [self loadShade];
+    }
+    if (prame1==0) {
+        return;
+    }
     
-
+    glUseProgram(prame1);
+    
     glClearColor(0.0, 0.3, 0.3, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    
     glActiveTexture(GL_TEXTURE1);
-    glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-
-    glUniform1i(glGetUniformLocation(prame,"u_samplers2D"), 0);
-//
-    glVertexAttribPointer(Poisition, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*8, NULL);
-    glEnableVertexAttribArray(Poisition);
-    
-    glVertexAttribPointer(BaseColor, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*8, (float*)NULL+3);
-    glEnableVertexAttribArray(BaseColor);
-//    glDisableVertexAttribArray(BaseColor);
-    glVertexAttribPointer(Texoted, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*8, (float *)NULL+6);
-    glEnableVertexAttribArray(Texoted);
-////
+    glBindTexture(GL_TEXTURE_2D, texture1);
+    [self setVBO];
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     
+    
 //    [_glkView.context presentRenderbuffer:GL_RENDERBUFFER];
+
+    
+    
 }
 
--(BOOL)loadShade{
+-(GLuint)loadShade{
     GLuint vertShader, fragShader;
     NSString *vertShaderPathname, *fragShaderPathname;
-    
-    prame = glCreateProgram();
+    GLuint temprame;
+    temprame = glCreateProgram();
     vertShaderPathname = [[NSBundle mainBundle] pathForResource:
                           @"Ver" ofType:@"glsl"];
     if (![self compileShader:&vertShader type:GL_VERTEX_SHADER
                         file:vertShaderPathname])
     {
         NSLog(@"Failed to compile vertex shader");
-        return NO;
+        return 0;
     }
     fragShaderPathname = [[NSBundle mainBundle] pathForResource:
                           @"Color" ofType:@"glsl"];
@@ -267,14 +256,14 @@ typedef enum : NSUInteger {
                         file:fragShaderPathname])
     {
         NSLog(@"Failed to compile fragment shader");
-        return NO;
+        return 0;
     }
-    glAttachShader(prame, vertShader);
-    glAttachShader(prame, fragShader);
+    glAttachShader(temprame, vertShader);
+    glAttachShader(temprame, fragShader);
     
-    if (![self linkProgram:prame])
+    if (![self linkProgram:temprame])
     {
-        NSLog(@"Failed to link program: %d", prame);
+        NSLog(@"Failed to link program: %d", temprame);
         
         if (vertShader)
         {
@@ -286,48 +275,27 @@ typedef enum : NSUInteger {
             glDeleteShader(fragShader);
             fragShader = 0;
         }
-        if (prame)
+        if (temprame)
         {
-            glDeleteProgram(prame);
-            prame = 0;
+            glDeleteProgram(temprame);
+            temprame = 0;
         }
         
-        return NO;
+        return 0;
     }
-    glBindAttribLocation(prame, Poisition, "a_emissionPosition");
-//    GLuint poisition=glGetAttribLocation(prame, "a_emissionPosition");
-    glVertexAttribPointer(Poisition, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*8, NULL);
-    glEnableVertexAttribArray(Poisition);
-    
-    
-    glBindAttribLocation(prame, BaseColor, "texCoords");
-
-//    GLuint basColor = glGetAttribLocation(prame, "texCoords");
-    glVertexAttribPointer(BaseColor, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*8, (float*)NULL+3);
-    glEnableVertexAttribArray(BaseColor);
-    
-    //纹理坐标缓存
-    glBindAttribLocation(prame, Texoted, "texCoords");
-
-//    GLuint color = glGetAttribLocation(prame, "textCoordinate");
-    glVertexAttribPointer(Texoted, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*8, (float *)NULL+6);
-    glEnableVertexAttribArray(Texoted);
-    
-    //纹理采样器
-    maTex  = glGetUniformLocation(prame,"u_samplers2D");
 
     if (vertShader)
     {
-        glDetachShader(prame, vertShader);
+        glDetachShader(temprame, vertShader);
         glDeleteShader(vertShader);
     }
     if (fragShader)
     {
-        glDetachShader(prame, fragShader);
+        glDetachShader(temprame, fragShader);
         glDeleteShader(fragShader);
     }
     
-    return YES;
+    return temprame;
 }
 
 

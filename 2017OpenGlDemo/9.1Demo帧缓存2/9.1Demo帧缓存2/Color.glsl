@@ -6,5 +6,6 @@ void main()
 {
     lowp vec4 textureColor = texture2D(u_samplers2D,
                                        vertexCood);
-    gl_FragColor = textureColor*vec4(vertexColor,1.0);
+    gl_FragColor = textureColor;
+//    gl_FragColor = textureColor*vec4(vertexColor,1.0);
 }
